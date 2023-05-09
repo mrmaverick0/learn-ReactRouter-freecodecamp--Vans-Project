@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { RouterProvider,createBrowserRouter,createRoutesFromElements, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Vans from "./pages/Vans/Vans";
@@ -14,31 +14,33 @@ import HostVanPhoto from "./pages/Host/HostVanPhoto";
 import HostLayout from "./components/HostLayout";
 import HostVans from "./pages/Host/HostVans";
 
+
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route element={<Layout />}>
+          
+  <Route path="/" element={<Home />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/vans" element={<Vans />} />
+  <Route path="/vans/:id" element={<VanDetails />} />
+  {/* Nested Routes */}
+  <Route path="host" element={<HostLayout/>}>
+    <Route index element={<Dashboard />} />
+    <Route path="income" element={<Income />} />
+    <Route path="reviews" element={<Reviews />} />
+    <Route path="vans" element={<HostVans/>} />
+    <Route path="vans/:id" element={<HostVanDetails/>} >
+      <Route index element={<HostVanInfo/>} />
+      <Route path="price" element={<HostVanPrice/>} />
+      <Route path="photo" element={<HostVanPhoto/>}/>
+    </Route>
+  </Route>
+  <Route path="*" element={<h2>Page not found</h2>}/>
+</Route>
+))
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Nested Routes */}
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/vans" element={<Vans />} />
-          <Route path="/vans/:id" element={<VanDetails />} />
-          {/* Nested Routes */}
-          <Route path="host" element={<HostLayout/>}>
-            <Route index element={<Dashboard />} />
-            <Route path="income" element={<Income />} />
-            <Route path="reviews" element={<Reviews />} />
-            <Route path="vans" element={<HostVans/>} />
-            <Route path="vans/:id" element={<HostVanDetails/>} >
-              <Route index element={<HostVanInfo/>} />
-              <Route path="price" element={<HostVanPrice/>} />
-              <Route path="photo" element={<HostVanPhoto/>}/>
-            </Route>
-          </Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <RouterProvider router={router} />
   );
 }
 

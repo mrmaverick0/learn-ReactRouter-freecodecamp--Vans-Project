@@ -21,7 +21,7 @@ function Vans() {
   const vanElements = displayedVans.map((van) => (
     <div className="van-til" key={van.id}>
         {/* Here we send data or we render component based on specific id */}
-      <Link to={`/vans/${van.id}`}>
+      <Link to={van.id} state={{search:`?${searchParams.toString()}`,type:typeFilter}}>
         <img src={van.imageUrl} alt="" />
         <div className="van-info">
           <h3>{van.name}</h3>
